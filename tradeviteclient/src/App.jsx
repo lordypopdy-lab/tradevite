@@ -15,10 +15,10 @@ import { Toaster } from 'react-hot-toast';
 
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
-axios.defaults.baseURL = 'https://tradevisterserver.vercel.app';
+axios.defaults.baseURL = 'https://tradeviteserver.vercel.app/';
 axios.defaults.withCredentials = true;
 
-//https://tradevisterserver.vercel.app
+//https://tradeviteserver.vercel.app/
 
 function App() {
 
