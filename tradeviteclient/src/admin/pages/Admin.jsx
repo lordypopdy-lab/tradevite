@@ -16,7 +16,7 @@ import toast from "react-hot-toast"
 
 const Admin = () => {
 
-    if (!localStorage.getItem("admin")) {
+    if (!localStorage.getItem("admin1")) {
         window.location.href = "/admin/login";
     }
     const [isDelete, setDelete] = useState();

@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import { useState, useEffect } from 'react';
 
 const AdminContact = () => {
-  const Admin = JSON.parse(localStorage.getItem("admin"));
+  const Admin = JSON.parse(localStorage.getItem("admin1"));
   const adminEmail = Admin.email;
   const email = localStorage.getItem("chatID");
 

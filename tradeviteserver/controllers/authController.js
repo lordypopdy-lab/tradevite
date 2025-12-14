@@ -9,214 +9,229 @@ const { hashPassword, comparePassword } = require("../helpers/auth");
 
 const getMessage = async (req, res) => {
   const { ID } = req.body;
-  
-  const getNoti = await adminMessage.findOne({userID: ID});
 
-  if(getNoti){
-    return res.json(getNoti)
+  const getNoti = await adminMessage.findOne({ userID: ID });
+
+  if (getNoti) {
+    return res.json(getNoti);
   }
 
-  return res.json({data: "No data"});
-}
+  return res.json({ data: "No data" });
+};
 
 const getNotification = async (req, res) => {
-  const {ID} = req.body;
-  const getNoti = await adminMessage.findOne({userID: ID});
+  const { ID } = req.body;
+  const getNoti = await adminMessage.findOne({ userID: ID });
 
-  if(getNoti){
-    return res.json(getNoti)
+  if (getNoti) {
+    return res.json(getNoti);
   }
 
-  return res.json({data: "No data"});
-}
+  return res.json({ data: "No data" });
+};
 
 const Delete = async (req, res) => {
   const { isDelete } = req.body;
 
-  const checkBank = await bankModel.findOne({_id: isDelete});
-  const checkCrypto = await cryptoModel.findOne({_id: isDelete});
+  const checkBank = await bankModel.findOne({ _id: isDelete });
+  const checkCrypto = await cryptoModel.findOne({ _id: isDelete });
 
-  if(checkBank){
-    await bankModel.deleteOne({_id: isDelete})
+  if (checkBank) {
+    await bankModel.deleteOne({ _id: isDelete });
     return res.json({
-      success: "Transaction Deleted Successfully!"
-    })
+      success: "Transaction Deleted Successfully!",
+    });
   }
 
-  if(checkCrypto){
-    await cryptoModel.deleteOne({_id: isDelete});
+  if (checkCrypto) {
+    await cryptoModel.deleteOne({ _id: isDelete });
     return res.json({
-      success: "Transaction Deleted Successfully!"
-    })
+      success: "Transaction Deleted Successfully!",
+    });
   }
 
   return res.json({
-    error: "Unidentify transaction ID"
-  })
-
-}
+    error: "Unidentify transaction ID",
+  });
+};
 
 const Approve = async (req, res) => {
   const { isApprove } = req.body;
 
-  const checkBank = await bankModel.findOne({_id: isApprove});
-  const checkCrypto = await cryptoModel.findOne({_id: isApprove});
+  const checkBank = await bankModel.findOne({ _id: isApprove });
+  const checkCrypto = await cryptoModel.findOne({ _id: isApprove });
 
-  if(checkBank){
-    await bankModel.updateOne({_id: isApprove}, {$set: {status: "Approved"}});
+  if (checkBank) {
+    await bankModel.updateOne(
+      { _id: isApprove },
+      { $set: { status: "Approved" } }
+    );
     return res.json({
-      success: "Transaction approved Successfully!"
-    })
+      success: "Transaction approved Successfully!",
+    });
   }
 
-  if(checkCrypto){
-    await cryptoModel.updateOne({_id: isApprove}, {$set: {status: "Approved"}});
+  if (checkCrypto) {
+    await cryptoModel.updateOne(
+      { _id: isApprove },
+      { $set: { status: "Approved" } }
+    );
     return res.json({
-      success: "Transaction Approved Successfully!"
-    })
+      success: "Transaction Approved Successfully!",
+    });
   }
 
   return res.json({
-    error: "Unidentify transaction ID"
-  })
-
-}
+    error: "Unidentify transaction ID",
+  });
+};
 
 const Decline = async (req, res) => {
   const { isDecline } = req.body;
 
-  const checkBank = await bankModel.findOne({_id: isDecline});
-  const checkCrypto = await cryptoModel.findOne({_id: isDecline});
+  const checkBank = await bankModel.findOne({ _id: isDecline });
+  const checkCrypto = await cryptoModel.findOne({ _id: isDecline });
 
-  if(checkBank){
-    await bankModel.updateOne({_id: isDecline}, {$set: {status: "Declined"}});
+  if (checkBank) {
+    await bankModel.updateOne(
+      { _id: isDecline },
+      { $set: { status: "Declined" } }
+    );
     return res.json({
-      success: "Transaction Declined Successfully!"
-    })
+      success: "Transaction Declined Successfully!",
+    });
   }
 
-  if(checkCrypto){
-    await cryptoModel.updateOne({_id: isDecline}, {$set: {status: "Declined"}});
+  if (checkCrypto) {
+    await cryptoModel.updateOne(
+      { _id: isDecline },
+      { $set: { status: "Declined" } }
+    );
     return res.json({
-      success: "Transaction Declined Successfully!"
-    })
+      success: "Transaction Declined Successfully!",
+    });
   }
 
   return res.json({
-    error: "Unidentify transaction ID"
-  })
-
-}
+    error: "Unidentify transaction ID",
+  });
+};
 
 const userNotification = async (req, res) => {
   const { id, value } = req.body;
   if (!id) {
     return res.json({
-      error: "userID and notification field is required! to send Message"
-    })
+      error: "userID and notification field is required! to send Message",
+    });
   }
 
   if (!value) {
     return res.json({
-      error: "userID and notification field is required! to send Message"
-    })
+      error: "userID and notification field is required! to send Message",
+    });
   }
 
   check01 = await adminMessage.findOne({ userID: id });
   if (check01) {
-    await adminMessage.updateOne({ userID: id }, { $set: { notification: value } });
+    await adminMessage.updateOne(
+      { userID: id },
+      { $set: { notification: value } }
+    );
     return res.json({
-      success: "Notification sent"
-    })
+      success: "Notification sent",
+    });
   }
 
-   await adminMessage.create({
+  await adminMessage.create({
     userID: id,
     notification: value,
-  })
+  });
 
   return res.json({
-    success: "Notification sent"
-  })
-}
+    success: "Notification sent",
+  });
+};
 
 const notificationAdder = async (req, res) => {
   const { id, value } = req.body;
 
   if (!id) {
     return res.json({
-      error: "userID and message field is required! to send Message"
-    })
+      error: "userID and message field is required! to send Message",
+    });
   }
 
   if (!value) {
     return res.json({
-      error: "userID and message field is required! to send Message"
-    })
+      error: "userID and message field is required! to send Message",
+    });
   }
 
   check01 = await adminMessage.findOne({ userID: id });
   if (check01) {
-    await adminMessage.updateOne({ userID: id }, { $set: { submitMessage: value } });
+    await adminMessage.updateOne(
+      { userID: id },
+      { $set: { submitMessage: value } }
+    );
     return res.json({
-      success: "message sent"
-    })
+      success: "message sent",
+    });
   }
 
-   await adminMessage.create({
+  await adminMessage.create({
     userID: id,
     submitMessage: value,
-  })
+  });
 
   return res.json({
-    success: "message sent"
-  })
-}
+    success: "message sent",
+  });
+};
 
 const deleteChat = async (req, res) => {
   const { id } = req.body;
   const deleted = await chatModel.deleteOne({ _id: id });
   if (deleted) {
     return res.json({
-      success: "Chat Deleted"
-    })
+      success: "Chat Deleted",
+    });
   }
-}
+};
 
 const chatSend = async (req, res) => {
   const { value, from, email } = req.body;
 
   if (!value) {
     return res.json({
-      error: "Message field is required"
-    })
+      error: "Message field is required",
+    });
   }
 
   if (!from) {
     return res.json({
-      error: "unidentified User"
-    })
+      error: "unidentified User",
+    });
   }
 
   if (!email) {
     return res.json({
-      error: "Email Not Found"
-    })
+      error: "Email Not Found",
+    });
   }
   const createNewChat = await chatModel.create({
     from: from,
     email: email,
     message: value,
-    tmp_stp: new Date()
-  })
+    tmp_stp: new Date(),
+  });
 
   if (createNewChat) {
     const chat = await chatModel.find({ email: email });
     return res.json({
-      chat: chat
-    })
+      chat: chat,
+    });
   }
-}
+};
 
 const getAdminChat = async (req, res) => {
   const { email } = req.body;
@@ -224,27 +239,27 @@ const getAdminChat = async (req, res) => {
   const getChat = await chatModel.find({ email: email });
   if (getChat) {
     return res.json({
-      chat: getChat
+      chat: getChat,
     });
   }
 
   res.json({
-    message: "No Chat Available"
-  })
-}
+    message: "No Chat Available",
+  });
+};
 
 const AdminGetCrypto = async (req, res) => {
   const { email } = req.body;
   const ifAdmin = await Admin.findOne({ email: email });
   if (ifAdmin) {
     const bankR = await cryptoModel.find();
-    return res.json(bankR)
+    return res.json(bankR);
   }
 
   return res.json({
-    error: "Unidentify Admin 404"
-  })
-}
+    error: "Unidentify Admin 404",
+  });
+};
 
 const AdminGetBankR = async (req, res) => {
   const { email } = req.body;
@@ -252,24 +267,24 @@ const AdminGetBankR = async (req, res) => {
   const ifAdmin = await Admin.findOne({ email: email });
   if (ifAdmin) {
     const bankR = await bankModel.find();
-    return res.json(bankR)
+    return res.json(bankR);
   }
 
   return res.json({
-    error: "Unidentify Admin 404"
-  })
-}
+    error: "Unidentify Admin 404",
+  });
+};
 
 const getCryptoRecords = async (req, res) => {
   const { email } = req.body;
   const find = await cryptoModel.find({ email: email });
 
   if (find) {
-    return res.json(find)
+    return res.json(find);
   }
 
   return res.json({});
-}
+};
 
 const getBankRecords = async (req, res) => {
   const { email } = req.body;
@@ -277,11 +292,11 @@ const getBankRecords = async (req, res) => {
   const find = await bankModel.find({ email: email });
 
   if (find) {
-    return res.json(find)
+    return res.json(find);
   }
 
   return res.json({});
-}
+};
 
 const getUser = async (req, res) => {
   const { email } = req.body;
@@ -567,8 +582,17 @@ const loginAdmin = async (req, res) => {
         new: "New admin created Contact lordy-popdy for Details!",
       });
     }
+
     //Check if password match
     const match = await comparePassword(password, user.password);
+
+    if (!match) {
+      return res.json({
+        error:
+          "password not match our database, password should be atleast six(6) character",
+      });
+    }
+
     if (match) {
       jwt.sign(
         { name: user.name, email: user.email, id: user._id },
@@ -579,12 +603,6 @@ const loginAdmin = async (req, res) => {
           res.cookie("token", token).json(user);
         }
       );
-    }
-    if (!match) {
-      return res.json({
-        error:
-          "password not match our database, password should be atleast six(6) character",
-      });
     }
   } catch (error) {
     console.log(error);
