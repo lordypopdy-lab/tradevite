@@ -46,13 +46,8 @@ const Admin = () => {
     const [isBalanceVisible, setIsBalanceVisible] = useState(true);
 
     useEffect(() => {
-        const Admin = JSON.parse(localStorage.getItem("admin"));
+        const Admin = JSON.parse(localStorage.getItem("admin1"));
         const email = Admin.email;
-
-        if(email !== "examplelordy@gmail.com") {
-            localStorage.removeItem("admin");
-            location.href = "/login"
-        }
 
         const getCryptoRecords = async () => {
             await axios.post("/AdminGetCrypto", { email }).then((data) => {
